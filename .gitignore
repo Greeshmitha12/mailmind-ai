@@ -1,0 +1,21 @@
+# Google OAuth
+credentials.json
+token*.json
+
+# Database
+*.db
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Python
+venv/
+.venv/
+__pycache__/
