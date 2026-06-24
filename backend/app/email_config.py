@@ -18,7 +18,8 @@ if MAIL_USERNAME and MAIL_PASSWORD and MAIL_FROM:
         MAIL_SERVER="smtp.gmail.com",
         MAIL_STARTTLS=True,
         MAIL_SSL_TLS=False,
-        USE_CREDENTIALS=True
+        USE_CREDENTIALS=True,
+        VALIDATE_CERTS=True
     )
 
 else:
