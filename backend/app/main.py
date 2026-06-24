@@ -82,9 +82,32 @@ async def create_user(
     ).first()
 
     if existing_user:
+
+        if not existing_user.is_verified:
+
+            otp = generate_otp()
+
+            existing_user.otp = otp
+            db.commit()
+
+            message = MessageSchema(
+                subject="MailMind OTP Verification",
+                recipients=[user.email],
+                body=f"Your OTP is: {otp}",
+                subtype="plain"
+            )
+
+            fm = FastMail(conf)
+            await fm.send_message(message)
+
+            return {
+                "status": "success",
+                "message": "New OTP sent"
+            }
+
         return {
             "status": "error",
-            "message": "Email already registered"
+            "message": "Email already registered and verified"
         }
 
     otp = generate_otp()
@@ -113,7 +136,7 @@ async def create_user(
 
     print("OTP Email Sent")
     print("OTP:", otp)
-    
+
     return {
         "id": db_user.id,
         "email": db_user.email,
@@ -255,3 +278,44 @@ def download_report():
         filename="mailmind_report.txt",
         media_type="text/plain"
     )
+@app.post("/resend-otp")
+async def resend_otp(
+    data: schemas.ResendOTP,
+    db: Session = Depends(get_db)
+):
+
+    user = db.query(models.User).filter(
+        models.User.email == data.email
+    ).first()
+
+    if not user:
+        return {
+            "status": "error",
+            "message": "User not found"
+        }
+
+    if user.is_verified:
+        return {
+            "status": "error",
+            "message": "Email already verified"
+        }
+
+    otp = generate_otp()
+
+    user.otp = otp
+    db.commit()
+
+    message = MessageSchema(
+        subject="MailMind OTP Verification",
+        recipients=[user.email],
+        body=f"Your new OTP is: {otp}",
+        subtype="plain"
+    )
+
+    fm = FastMail(conf)
+    await fm.send_message(message)
+
+    return {
+        "status": "success",
+        "message": "New OTP sent"
+    }   

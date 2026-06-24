@@ -21,7 +21,9 @@ class VerifyOTP(BaseModel):
     email: EmailStr
     otp: str
 
-
+class ResendOTP(BaseModel):
+    email: str
+    
 class GoogleConnectResponse(BaseModel):
     message: str
     user_id: int
