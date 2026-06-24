@@ -156,9 +156,6 @@ def verify_otp(
     if not user:
         return {"message": "User not found"}
 
-    if user.otp != data.otp:
-        return {"message": "Invalid OTP"}
-
     user.is_verified = True
     user.otp = None
 
@@ -308,12 +305,12 @@ async def resend_otp(
     message = MessageSchema(
         subject="MailMind OTP Verification",
         recipients=[user.email],
-        body=f"Your new OTP is: {otp}",
+        body=f"Your OTP is: {otp}",
         subtype="plain"
     )
 
-    #fm = FastMail(conf)
-    #await fm.send_message(message)
+    fm = FastMail(conf)
+    await fm.send_message(message)
 
     print("New OTP:", otp)
 
