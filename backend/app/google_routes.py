@@ -25,7 +25,7 @@ CLIENT_FILE = os.path.abspath(
     )
 )
 
-REDIRECT_URI = "http://127.0.0.1:8000/google/callback"
+REDIRECT_URI = "https://mailmind-ai-e2tz.onrender.com/google/callback"
 
 
 def get_db():
