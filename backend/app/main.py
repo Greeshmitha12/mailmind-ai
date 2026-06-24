@@ -312,10 +312,11 @@ async def resend_otp(
         subtype="plain"
     )
 
-    #fm = FastMail(conf)
-    #await fm.send_message(message)
+    fm = FastMail(conf)
+    await fm.send_message(message)
 
     print("New OTP:", otp)
+
     return {
         "status": "success",
         "message": "New OTP sent"
