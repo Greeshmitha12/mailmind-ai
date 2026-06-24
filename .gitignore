@@ -1,6 +1,7 @@
 # Google OAuth
 credentials.json
 token*.json
+backend/credentials.json
 
 # Database
 *.db
