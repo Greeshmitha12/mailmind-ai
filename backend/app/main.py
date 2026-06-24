@@ -108,11 +108,12 @@ async def create_user(
         subtype="plain"
     )
 
-    fm = FastMail(conf)
-    await fm.send_message(message)
+    #fm = FastMail(conf)
+    #await fm.send_message(message)
 
     print("OTP Email Sent")
-
+    print("OTP:", otp)
+    
     return {
         "id": db_user.id,
         "email": db_user.email,
